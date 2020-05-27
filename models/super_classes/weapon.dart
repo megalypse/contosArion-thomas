@@ -1,7 +1,7 @@
 class Weapon {
   String nome;
   int dmgDice;
-  int attacks;
+  int numberOfAtks;
 
   Weapon({this.nome});
 }

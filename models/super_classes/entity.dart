@@ -2,9 +2,19 @@ import 'dart:math' as math;
 
 import '../base_classes/character.dart';
 
+void main() {
+  Character bruno = Character();
+  Entity goblin = Entity(
+    nome: 'Goblin',
+  );
+  bruno.nome = 'Bruno';
+
+  bruno.attack(goblin);
+}
+
 class Entity {
   String nome;
-  int _hp;
+  int hp;
   int _ac;
   int con;
   int _modCon;
@@ -50,11 +60,6 @@ class Entity {
     return _modItl;
   }
 
-  int get hp {
-    _hp = ((10 + modCon));
-    return _hp;
-  }
-
   int get ac {
     _ac = 10 + modDex;
     return _ac;
@@ -62,16 +67,17 @@ class Entity {
 
   Entity({
     this.nome,
-    this.con,
-    this.str,
-    this.dex,
-    this.car,
-    this.wis,
-    this.itl,
-  });
+    this.con = 10,
+    this.str = 10,
+    this.dex = 10,
+    this.car = 10,
+    this.wis = 10,
+    this.itl = 10,
+  }) {
+    hp = 10 + modCon;
+  }
 
   bool isPlayer() {
-    print(this.runtimeType);
     if (this.runtimeType == Character) return true;
 
     return false;
@@ -87,8 +93,8 @@ class Entity {
 
     int d20 = _dice.nextInt(20) + rollBonus;
 
-    if (d20 >= ac) {
-      takeDamage(damage: 3 + dmgBonus);
+    if (d20 >= entity.ac) {
+      entity.takeDamage(damage: 3 + dmgBonus);
     } else {
       if (isPlayer()) {
         print('Você errou o ataque!');
@@ -101,15 +107,15 @@ class Entity {
   takeDamage({
     int damage,
   }) {
-    _hp -= damage;
+    hp -= damage;
 
-    if (_hp <= (0 - hp / 2)) {
+    if (hp <= (0 - hp / 2)) {
       if (isPlayer()) {
         print('Você morreu');
       } else {
         print('$nome morreu...');
       }
-    } else if (_hp <= 0) {
+    } else if (hp <= 0) {
       if (isPlayer()) {
         print('Você ficou inconsciente');
       } else {
